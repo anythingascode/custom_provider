@@ -3,6 +3,8 @@ package github
 import (
 	"encoding/json"
 	"fmt"
+
+	"github.com/summitdevops/custom_provider/client"
 )
 
 // func (c *Client) GetProjects() (*[]Project, error) {
@@ -25,25 +27,10 @@ import (
 // 	return &projects, nil
 // }
 
-func (c *Client) GetWorkflowByName(orgOwner string, repo string, workflowName string) (*Workflow, error) {
-	// projects, err := c.GetProjects()
-	// if err != nil {
-	// 	fmt.Sprintf("Error during getting project list: %s", err)
-	// }
-
-	// for _, project := range *projects {
-	// 	if project.Name == name {
-	// 		return &project, nil
-	// 	}
-	// }
-	// return nil, fmt.Errorf("Project with name %s not found", name)
+func GetWorkflowByName(orgOwner string, repo string, workflowName string) (*Workflow, error) {
 	path := "repos/" + orgOwner + "/" + repo + "/actions/workflows/" + workflowName
-	req, err := c.newRequest(path, "GET", nil)
-	if err != nil {
-		fmt.Println("Error during request:")
-		return nil, err
-	}
-	res, err := c.doRequest(req)
+	client.NewRequest(path, "GET", "https://api.github.com", nil)
+	res, err := client.DoRequest()
 	if err != nil {
 		fmt.Println("Error during do request:")
 		return nil, err

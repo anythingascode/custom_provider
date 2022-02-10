@@ -22,15 +22,15 @@ func NewClient(apiKey *string) *Client {
 	}
 }
 
-func (c *Client) newRequest(path, method, restURL string, body io.Reader) (*http.Request, error) {
-	req, err := http.NewRequest(method, fmt.Sprintf("%s/%s", restURL, path), body)
+func (c *Client) NewRequest(path, method, restURL string, body io.Reader) (*http.Request, error) {
+	c.Req, err := http.NewRequest(method, fmt.Sprintf("%s/%s", restURL, path), body)
 	if err != nil {
 		return nil, err
 	}
-	return req, err
+	return c.Req, err
 }
 
-func (c *Client) doRequest() ([]byte, error) {
+func (c *Client) DoRequest() ([]byte, error) {
 	for key, value := range *c.Headers {
 		c.Req.Header.Set(key, value)
 	}
